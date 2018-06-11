@@ -1,13 +1,34 @@
 @import '~bulma';
 @import '~bulma-timeline';
 
+$space-width: 5px;
+
 .navbar {
   border-bottom: 1px solid #eee;
   margin-bottom: 8px;
 }
 
-.gh-username img {
-  width: 32px;
+.gh-content {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+
+  a:not(:last-child){
+    margin: 0 $space-width;
+  }
+}
+
+.gh-username {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  margin-right: $space-width;
+
+  img {
+    height: 32px;
+    margin-right: $space-width;
+    width: 32px;
+  }
 }
 
 #profile-bio {
