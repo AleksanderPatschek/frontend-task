@@ -1,15 +1,15 @@
 {
+  "parser": "babel-eslint",
   "extends": [
-    "airbnb-base",
-    "prettier"
+    "airbnb-base"
   ],
   "plugins": [
-    "prettier",
     "html"
   ],
   "rules": {
-    "prettier/prettier": "error",
-    "import/prefer-default-export": false
+    "import/prefer-default-export": false,
+    "no-alert": 0,
+    "arrow-parens": [2, "as-needed"]
   },
   "env": {
     "browser": true
