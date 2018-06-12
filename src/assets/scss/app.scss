@@ -7,6 +7,22 @@ $space-width: 5px;
   border-bottom: 1px solid #eee;
   margin-bottom: 8px;
 }
+.page-container {
+  display: flex;
+  flex-direction: column;
+  @media (min-device-width: 769px) {
+    flex-direction: row;
+  }
+}
+.profile-container {
+  width: 100vw;
+  @media (min-device-width: 769px) {
+    width: 50vw;
+  }
+  @media (min-device-width: 1280px) {
+    width: 30vw;
+  }
+}
 
 .input.username.invalid {
   border: 2px solid red;
@@ -16,6 +32,7 @@ $space-width: 5px;
   align-items: center;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 
   a:not(:last-child) {
     margin: 0 $space-width;
