@@ -1,7 +1,11 @@
 import $ from 'cash-dom';
 import './assets/scss/app.scss';
+import { fetchUser, fetchUserEvents } from './github.repository';
+import { PullRequestEvent, PullRequestReviewCommentEvent } from './github.events';
+import { createFromEvent } from './timeline.factory';
 
 const userInputValidationRule = /^[a-z0-9_-]+$/;
+const eventsFilter = [PullRequestEvent, PullRequestReviewCommentEvent];
 
 export class App {
   initializeApp() {
@@ -13,7 +17,6 @@ export class App {
 
   validateInput = e => {
     const $input = $(e.target);
-
     if (!this.isInputValid($input.val())) {
       $input.addClass('invalid');
     } else {
@@ -26,12 +29,15 @@ export class App {
   handleUserSubmit = () => {
     this.userName = $('#username-input').val();
     if (this.isInputValid(this.userName)) {
-      fetch(`https://api.github.com/users/${this.userName}`)
-        .then(response => response.json())
-        .then(body => {
-          this.profile = body;
-          this.updateProfile();
-        });
+      fetchUser(this.userName).then(body => {
+        this.profile = body;
+        this.updateProfile();
+      });
+
+      fetchUserEvents(this.userName, eventsFilter).then(body => {
+        this.events = body;
+        this.updateTimeline();
+      });
     } else {
       alert('Username is not valid');
     }
@@ -44,5 +50,13 @@ export class App {
       .attr('href', this.profile.html_url)
       .text(this.profile.login);
     $('#profile-bio').text(this.profile.bio || '(no information)');
+  }
+
+  updateTimeline() {
+    const $userTimeline = $('#user-timeline');
+    $userTimeline.empty();
+    this.events.forEach(event => {
+      $userTimeline.append(createFromEvent(event));
+    });
   }
 }
