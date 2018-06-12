@@ -26,21 +26,35 @@ export class App {
 
   isInputValid = value => userInputValidationRule.test(value);
 
-  handleUserSubmit = () => {
+  handleUserSubmit = async () => {
     this.userName = $('#username-input').val();
-    if (this.isInputValid(this.userName)) {
-      fetchUser(this.userName).then(body => {
-        this.profile = body;
-        this.updateProfile();
-      });
 
-      fetchUserEvents(this.userName, eventsFilter).then(body => {
-        this.events = body;
+    this.toggleVisibilityForRequest();
+    await this.makeRequests()
+      .then(([user, events]) => {
+        this.profile = user;
+        this.events = events;
+        this.updateProfile();
         this.updateTimeline();
-      });
-    } else {
-      alert('Username is not valid');
+      })
+      .catch(e => alert(e.message));
+    this.toggleVisibilityForRequest();
+  };
+
+  toggleVisibilityForRequest = () => {
+    const spinner = $('#spinner');
+    const userProfile = $('#user-profile');
+    const userTimeline = $('#user-timeline');
+    spinner.toggleClass('is-hidden');
+    userProfile.toggleClass('is-hidden');
+    userTimeline.toggleClass('is-hidden');
+  };
+
+  makeRequests = () => {
+    if (this.isInputValid(this.userName)) {
+      return Promise.all([fetchUser(this.userName), fetchUserEvents(this.userName, eventsFilter)]);
     }
+    return Promise.reject(new Error('Username is not valid'));
   };
 
   updateProfile() {
