@@ -1,0 +1,61 @@
+@import '~bulma';
+@import '~bulma-timeline';
+
+$space-width: 5px;
+
+.navbar {
+  border-bottom: 1px solid #eee;
+  margin-bottom: 8px;
+}
+.page-container {
+  display: flex;
+  flex-direction: column;
+  @media (min-device-width: 769px) {
+    flex-direction: row;
+  }
+}
+.profile-container {
+  width: 100vw;
+  @media (min-device-width: 769px) {
+    width: 50vw;
+  }
+  @media (min-device-width: 1280px) {
+    width: 30vw;
+  }
+}
+
+.input.username.invalid {
+  border: 2px solid red;
+}
+
+.gh-content {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  a:not(:last-child) {
+    margin: 0 $space-width;
+  }
+}
+
+.gh-username {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  margin-right: $space-width;
+
+  img {
+    height: 32px;
+    margin-right: $space-width;
+    width: 32px;
+  }
+}
+
+#profile-bio {
+  margin-top: 10px;
+}
+
+.timeline .timeline-item {
+  padding-bottom: 1em;
+}
